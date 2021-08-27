@@ -4,11 +4,17 @@ const fs = require("fs");
 
 const request = require("request");
 request(input[0], (error, response, body) => {
+  if (error) {
+    return console.log(error);
+    //process.exit
+  }
   fetchedSite.error = error;
   fetchedSite.statusCode = response && response.statusCode;
   fetchedSite.body = body;
 
   const content = JSON.stringify(fetchedSite);
+
+  //will overwrite the file if it already exists/have stuff in it
   fs.writeFile(input[1], content, (err) => {
     if (err) {
       console.error(err);
